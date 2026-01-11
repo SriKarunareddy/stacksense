@@ -15,15 +15,21 @@ Quick start
    .venv\Scripts\activate      # Windows
    pip install -r requirements.txt
 
-2. Run the app:
+2. Run the app (simple):
 
-   streamlit run app.py
+   streamlit run streamlit_app.py  # single-file, self-contained entrypoint
+
+   # Or use the refactored package entrypoint:
+   streamlit run app/main.py
+
+   # Backwards-compatible launcher:
+   python run_app.py  # runs the same UI when not using Streamlit pages
 
 How it works
 - `decision_engine/data.py`: defines candidates and explicit numeric suitability values (0..1) for each criterion and option.
 - `decision_engine/scorer.py`: computes per-option scores by averaging the per-criterion suitability values. The breakdown is returned to ensure transparency.
 - `decision_engine/explainer.py`: converts numeric breakdowns into human readable explanations and composes full-stack recommendations.
-- `app.py`: Streamlit UI to capture constraints, show ranked tables, per-option pros/cons, and recommended full stacks.
+- `app/`: refactored Streamlit package with a `pages/` folder for `1_Home.py` and `2_Compare.py`, `components/` for UI building blocks, and `utils/` for analysis helpers. Use `streamlit run app/main.py` to start the app.
 
 Transparency & Extensibility
 - The scoring model uses explicit numeric inputs for each option and criterion — change the numbers in `decision_engine/data.py` to reflect team preferences or new options.

@@ -1,0 +1,13 @@
+name: stacksense-referee
+description: >
+  AI agent to assist with scoring logic, trade-off explanations,
+  and comparison reasoning for tech stack decisions.
+
+tools:
+  - name: scoring_tool
+    description: Scores tech stacks based on constraints
+
+goals:
+  - Generate explainable scoring logic
+  - Compare multiple technologies
+  - Provide transparent trade-offs

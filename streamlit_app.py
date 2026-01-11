@@ -1,10 +1,8 @@
-"""
-StackSense - Streamlit app
+"""Simple, runnable Streamlit app for StackSense
 
-Interactive tool to compare frontend, backend, and database options
-based on transparent, rule-based scoring of user constraints.
+This single-file entrypoint avoids package-import complexity and can be
+started with `streamlit run streamlit_app.py` from the repo root.
 """
-
 from typing import Dict, List
 import streamlit as st
 import pandas as pd
@@ -14,11 +12,11 @@ from decision_engine.data import (
     get_backend_options,
     get_database_options,
 )
-from decision_engine.scorer import rank_options, score_options
+from decision_engine.scorer import rank_options
 from decision_engine.explainer import explain_option_scoring, recommend_stacks
 
 
-st.set_page_config(page_title="StackSense", layout="wide")
+st.set_page_config(page_title="StackSense (Simple)", layout="wide")
 
 CRITERIA = ["team_size", "time_to_market", "scalability", "budget"]
 
@@ -73,9 +71,9 @@ def show_category(title: str, scores: List[Dict]):
 
 
 def main():
-    st.title("StackSense — Choose a Tech Stack with Transparent Reasoning")
+    st.title("StackSense — Choose a Tech Stack (Simple)")
     st.write(
-        "Use the controls to express constraints — StackSense ranks options and explains trade-offs with transparent, rule-based scoring."
+        "This simplified entrypoint uses the `decision_engine` modules directly to avoid import/package issues."
     )
 
     with st.sidebar:
@@ -86,7 +84,7 @@ def main():
         budget = st.selectbox("Budget", ["Low", "Medium", "High"], index=1)
 
         st.markdown("---")
-        st.markdown("**About:** StackSense uses rule-based suitability scores for each option to ensure transparency. No black-box AI.")
+        st.markdown("**About:** Lightweight StackSense using rule-based scoring (no black-box AI).")
 
     constraints = {
         "team_size": team_size,
@@ -110,7 +108,7 @@ def main():
     recommended = recommend_stacks(fe_scores, be_scores, db_scores, top_n=3)
     for r in recommended:
         st.subheader(f"Score: {r['score']:.3f} — {r['frontend_name']} / {r['backend_name']} / {r['database_name']}")
-        st.markdown(r"**Why this stack:**")
+        st.markdown("**Why this stack:**")
         st.markdown(r["explanation"])
         with st.expander("Combined Pros and Cons"):
             st.markdown("**Pros:**")
@@ -125,8 +123,4 @@ def main():
 
 
 if __name__ == "__main__":
-    # Backwards-compatible launcher that calls the refactored app
-    from app.main import main as _main
-
-    _main()
-
+    main()
